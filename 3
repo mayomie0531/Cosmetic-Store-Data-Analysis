@@ -1,0 +1,10 @@
+# 작업 순서 3
+# 컬럼 추가
+alter table data_all add day_of_the_week varchar(40) after event_hour
+
+# 요일 변환 코드 
+UPDATE data_all
+SET day_of_the_week = SUBSTR(_UTF8'일월화수목금토', DAYOFWEEK(event_time), 1 )
+
+UPDATE data_all
+SET event_hour = DATEPART(hour, event_time);ㅈ
