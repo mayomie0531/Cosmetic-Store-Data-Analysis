@@ -1,0 +1,22 @@
+/* #1 시간대별 사용자 행동 분석
+하루 24시간을 구간으로 나누어 각 시간대별 행동 유형(view, cart, purchase)의 분포 파악
+오전 (6시~11시)
+오후 (12시~17시)
+저녁 (18시~23시)
+심야 (0시~5시)
+*/
+
+select case when hh between 06 and 11 then '오전'
+			when hh between 12 and 17 then '오후'
+			when hh between 18 and 23 then '저녁'
+			when hh between 00 and 05 then '심야'
+			end '시간대', event_type, count(*)
+from data_all
+group by 1,2
+order by 2, case when 시간대 = '오전' then 1
+              when 시간대 = '오후' then 2
+              when 시간대 = '저녁' then 3
+              when 시간대 = '심야' then 4
+              end
+
+
