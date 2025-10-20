@@ -1,0 +1,4 @@
+# 작업순서 5
+
+UPDATE data_all
+SET day_of_the_week = DAYNAME(STR_TO_DATE(SUBSTR(event_time, 1, 10), '%Y-%m-%d'));
