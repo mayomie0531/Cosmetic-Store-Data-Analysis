@@ -1,0 +1,12 @@
+#3 요일별 - 시간대별(1시간 단위) 이벤트 발생량
+select dd, hh, event_type, COUNT(*)
+from data_all
+group by 1, 2, 3
+order by 3, case WHEN dd='월' THEN 1
+                 WHEN dd='화' THEN 2
+                 WHEN dd='수' THEN 3
+                 WHEN dd='목' THEN 4
+                 WHEN dd='금' THEN 5
+                 WHEN dd='토' THEN 6          
+                 WHEN dd='일' THEN 7
+                 END asc, 2
