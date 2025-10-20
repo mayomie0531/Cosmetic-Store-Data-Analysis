@@ -1,0 +1,29 @@
+# 4번 시간대별 구매 전환율
+
+select dd as '요일', 
+       case when hh between 06 and 11 then '오전'
+			when hh between 12 and 17 then '오후'
+			when hh between 18 and 23 then '저녁'
+			when hh between 00 and 05 then '심야'
+			end '시간대', 
+			count(distinct case when event_type in ('view', 'cart') then user_id end) as view_cart_cnt,
+			count(distinct case when event_type = 'purchase' then user_id end) as purchase_cnt,
+		   (count(distinct case when event_type = 'purchase' then user_id end)/
+			count(distinct case when event_type in ('view', 'cart') then user_id end)
+			) * 100 as cvr
+from data_all
+where event_type = 'cart' or event_type = 'view' or event_type = 'purchase'
+group by 1, 2
+order by case WHEN dd='월' THEN 1
+              WHEN dd='화' THEN 2
+              WHEN dd='수' THEN 3
+              WHEN dd='목' THEN 4
+              WHEN dd='금' THEN 5
+              WHEN dd='토' THEN 6          
+              WHEN dd='일' THEN 7
+              end,
+         case when 시간대 = '오전' then 1
+              when 시간대 = '오후' then 2
+              when 시간대 = '저녁' then 3
+              when 시간대 = '심야' then 4
+              end
